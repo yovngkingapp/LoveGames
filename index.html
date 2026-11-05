@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es" data-tema="claro" data-movimiento="normal">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#E8ECE9">
+<meta name="description" content="Un rincón tranquilo con juegos hechos para Yajaira.">
+<title>El rincón de Yajaira</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/base.css">
+
+<script defer src="js/config.js"></script>
+<script defer src="js/core.js"></script>
+
+<!-- Juegos: si un archivo no existe, el portal sigue funcionando y muestra "Próximamente" -->
+<script defer src="games/sudoku.js"></script>
+<script defer src="games/minesweeper.js"></script>
+<script defer src="games/mahjong.js"></script>
+<script defer src="games/colorswitch.js"></script>
+</head>
+<body>
+
+<!-- Fondo estático: niebla, vidrio de mar y rosa ceniza, con grano sutil -->
+<div class="fondo" aria-hidden="true">
+  <span class="mancha mancha-1"></span>
+  <span class="mancha mancha-2"></span>
+  <span class="mancha mancha-3"></span>
+  <span class="grano"></span>
+</div>
+
+<div class="app">
+
+  <!-- Barra lateral (escritorio) / cabecera (móvil) -->
+  <aside class="lateral vidrio" id="lateral">
+    <div class="marca">
+      <span class="marca-punto" aria-hidden="true"></span>
+      <span class="marca-texto" id="marca-texto">El rincón de Yajaira</span>
+    </div>
+    <nav class="nav" id="nav" aria-label="Navegación principal"></nav>
+    <div class="lateral-pie">
+      <button type="button" class="btn-tema" id="btn-tema" aria-label="Cambiar de tema"></button>
+    </div>
+  </aside>
+
+  <div class="principal">
+    <main id="vista" class="vista" tabindex="-1"></main>
+    <footer class="pie" id="pie"></footer>
+  </div>
+
+</div>
+
+<!-- Barra inferior (móvil) -->
+<nav class="inferior vidrio" id="inferior" aria-label="Navegación principal"></nav>
+
+<div id="toast-raiz" class="toast-raiz" aria-live="polite" aria-atomic="true"></div>
+<div id="modal-raiz"></div>
+
+<noscript>
+  <p class="sin-js">Este sitio necesita JavaScript para poder jugar.</p>
+</noscript>
+
+</body>
+</html>
