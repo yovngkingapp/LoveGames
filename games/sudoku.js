@@ -618,6 +618,7 @@
     '.sdk-ajuste.activo{background:var(--musgo);color:var(--niebla-2);border-color:transparent;}',
     '.sdk-preparando{display:flex;flex-direction:column;align-items:center;gap:18px;padding:48px 20px;color:var(--tinta-suave);font-size:var(--t-2);}',
     '.sdk-preparando[hidden]{display:none;}',
+    '.sdk-wrap [hidden]{display:none!important;}',
     '.sdk-spinner{width:32px;height:32px;border:3px solid var(--capa-suave);border-top-color:var(--musgo);border-radius:50%;animation:sdk-girar 800ms linear infinite;}',
     '@keyframes sdk-girar{to{transform:rotate(360deg);}}',
     '@keyframes sdk-pulso{0%,100%{background-color:transparent;}40%{background-color:rgba(134,179,172,.5);}}',
@@ -937,7 +938,7 @@
       cambios.push({ i: i, vA: 0, nA: nA, vD: 0, nD: S.notas[i] });
     } else {
       if (S.tablero[i] === valor) return;
-      cambios.push({ i: i, vA: 0, nA: S.notas[i], vD: valor, nD: 0 });
+      cambios.push({ i: i, vA: S.tablero[i], nA: S.notas[i], vD: valor, nD: 0 });
       S.tablero[i] = valor;
       S.notas[i] = 0;
       if (S.ajustes.autoNotas) {
@@ -1072,6 +1073,18 @@
 
   function darPista() {
     if (S.pausado || S.completado || !S.tablero || !S.solucion) return;
+
+    // Antes de dar una pista, si hay un número incorrecto, señálalo.
+    for (var e = 0; e < 81; e++) {
+      if (S.puzzle[e] === 0 && S.tablero[e] !== 0 && S.tablero[e] !== S.solucion[e]) {
+        seleccionar(e);
+        S.pistas++;
+        actualizarPistasTxt();
+        ctxRef.toast('Hay un número incorrecto. Revisa la celda marcada.');
+        return;
+      }
+    }
+
     var tab = new Int8Array(S.tablero);
     var cand = new Int16Array(81);
     for (var i = 0; i < 81; i++) {
@@ -1303,6 +1316,7 @@
   // ═══════════════════════════════════════════════════════════════════
 
   function teclaGlobal(e) {
+    if (e.target && /^(SELECT|INPUT|TEXTAREA)$/.test(e.target.tagName)) return;
     if (!rootRef || !S.tablero || S.pausado || S.completado) return;
     var k = e.key;
     if (k >= '1' && k <= '9') { e.preventDefault(); jugada(parseInt(k, 10)); return; }
